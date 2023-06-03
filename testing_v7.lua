@@ -73,26 +73,24 @@ local deltaTime = 0
 local lastsine = 0
 
 function main()
-	for i, v in pairs(joints) do
-		local part0, part1 = v.Part0, v.Part1
-		if part1 and part0 then
-			cframes[part1] = cframes[part0] * v.C0 * v.C1:Inverse()
-		end
-	end
 	sine = osclock()
 	local delta = sine - lastsine
 	deltaTime = clamp(delta * 10, 0, 1)
 	lastsine = sine
 	for i,v in cframes do
-      if i.Name == "HumanoidRootPart" then
-        if hum.MoveDirection.Magnitude >= 0 then
-				  i.CFrame = i.CFrame + hum.MoveDirection*deltaTime
-          local a = getJointFromPart1("Torso").Part1
-          a.Position = i.CFrame.Position
-		    end
-        else i.CFrame = v
-      end
-      i.Velocity = v3_0
+      		if i.Name == "HumanoidRootPart" then
+      			if hum.MoveDirection.Magnitude >= 0 then
+				i.CFrame = i.CFrame + hum.MoveDirection*deltaTime
+			end
+        		else i.CFrame = v
+      		end
+     	i.Velocity = v3_0
+	end
+	for i, v in pairs(joints) do
+		local part0, part1 = v.Part0, v.Part1
+		if part1 and part0 then
+			cframes[part1] = cframes[part0] * v.C0 * v.C1:Inverse()
+		end
 	end
 end
 rs.PostSimulation:Connect(main)
