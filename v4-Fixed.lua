@@ -57,6 +57,7 @@ c.DescendantRemoving:Connect(function(d)
       jump = hum:GetPropertyChangedSignal("Jump"):Connect(function(a)
           if a then
             getJointFromPart1("Torso").Part0.Velocity += Vector3.yAxis*50
+	end
       end)
 	end
 end)
@@ -75,6 +76,7 @@ local hum = c.Humanoid
 jump = hum:GetPropertyChangedSignal("Jump"):Connect(function(a)
        if a then
        getJointFromPart1("Torso").Part0.Velocity += Vector3.yAxis*50
+	end
 end)
 local deltaTime = 0
 local lastsine = 0
