@@ -21,6 +21,9 @@ for i,v in pairs(c:GetDescendants()) do
 		v.Enabled = false
 		v:Destroy()
 	elseif v:IsA("BasePart") then
+		if v.Name ~= "HumanoidRootPart" then
+			v.Anchored = true
+		end
 		cframes[v] = v.CFrame
 	end
 end
@@ -73,11 +76,6 @@ local cf, v3, angles = CFrame.new, Vector3.new, CFrame.Angles
 local v3_0, v3_101, v3_010, v3_001, cf_0 = v3(0, 0, 0), v3(1, 0, 1), v3(0, 1, 0), v3(0, 0, 1), cf(0, 0, 0)
 
 local hum = c.Humanoid
-jump = hum:GetPropertyChangedSignal("Jump"):Connect(function(a)
-       if a then
-       getJointFromPart1("Torso").Part0.Velocity += Vector3.yAxis*50
-	end
-end)
 local deltaTime = 0
 local lastsine = 0
 local mode = "idle"
@@ -86,6 +84,12 @@ function main()
 	local delta = sine - lastsine
 	deltaTime = clamp(delta * 10, 0, 1)
 	lastsine = sine
+	for i, v in pairs(joints) do
+		local part0, part1 = v.Part0, v.Part1
+		if part1 and part0 then
+			cframes[part1] = cframes[part0] * v.C0 * v.C1:Inverse()
+		end
+	end
 	for i,v in cframes do
       		if i.Name ~= "HumanoidRootPart" then
               i.CFrame = v
@@ -93,14 +97,6 @@ function main()
           else i:SetNetworkOwner(owner)
                cframes[i] = i.CFrame
       end
-      i.Parent = c
-      c.Parent = workspace
-	end
-	for i, v in pairs(joints) do
-		local part0, part1 = v.Part0, v.Part1
-		if part1 and part0 then
-			cframes[part1] = cframes[part0] * v.C0 * v.C1:Inverse()
-		end
 	end
   if hum.MoveDirection.Magnitude > 0 then
     mode = "walk"
