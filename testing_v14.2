@@ -53,6 +53,8 @@ c.DescendantRemoving:Connect(function(d)
 		local cl = d:Clone()
 		cl.Parent = c
 		j.Part1 = cl
+		cframes[d] = nil
+		cframes[j] = d.CFrame
 	end
 	if d:IsA("Humanoid") then
 		hum = Instance.new("Humanoid",c)
