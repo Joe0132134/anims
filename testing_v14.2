@@ -86,19 +86,22 @@ function main()
 	local delta = sine - lastsine
 	deltaTime = clamp(delta * 10, 0, 1)
 	lastsine = sine
+
 	for i, v in pairs(joints) do
 		local part0, part1 = v.Part0, v.Part1
 		if part1 and part0 then
 			cframes[part1] = cframes[part0] * v.C0 * v.C1:Inverse()
 		end
 	end
+  	for i=1,2 do
 	for i,v in cframes do
       		if i.Name ~= "HumanoidRootPart" then
               i.CFrame = v
               i.Velocity = v3_0
           else i:SetNetworkOwner(owner)
                cframes[i] = i.CFrame
-      end
+      	end
+       end
 	end
   if hum.MoveDirection.Magnitude > 0 then
     mode = "walk"
